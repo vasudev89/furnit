@@ -1,4 +1,7 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@page isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <head>
 	
@@ -65,6 +68,8 @@
 		
 		$scope.edit = true;
 		
+		$scope.file_display = 'Choose Image';
+		
 		$scope.count = 0;
 		
 		//$scope.data = data;
@@ -96,6 +101,11 @@
 			return $scope.count++;
 		}
 		
+		$scope.fileNameChaged = function()
+		   {
+		        alert("select file");
+		   }
+		
 		$scope.submitForView = function(arg)
 		{
 			$scope.currItem = $scope.data[arg];
@@ -119,35 +129,7 @@
 	<script type="text/javascript" src="resources/references/js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="resources/references/js/bootstrap.min.js"></script>
 
-	
-
-	<div style=" background-image: url(resources/images/headerBack.jpg); position: absolute;  left: 0px; height: 70px; color: #FFC706; width: 100%; text-align: left; vertical-align: middle; line-height: 60px; border: 0px solid #FFC706; box-shadow: 5px 45px 40px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" >
-		&nbsp;&nbsp;&nbsp;<span style="color: #FFFFFF; font-size: 32px;">Furn</span> - It
-                
-        <nav style="z-index: 4; background-image: url(resources/images/headerBack.jpg); border: none; box-shadow: 5px 5px 40px #000000;" class="navbar navbar-inverse">
-			<div class="container-fluid">
-    			<div class="navbar-header">
-      				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>                        
-      				</button>
-    			</div>
-    			<div class="collapse navbar-collapse" id="myNavbar">
-	    			<ul class="nav navbar-nav navbar-left">
-		    			<li><a class="nav navbar-left" href="index">Home</a></li>
-		        		<li><a href="aboutus">About Us</a></li>
-				        <li><a href="contactus">Contact Us</a></li>
-				        <li><a href="product">Products</a></li>
-				    </ul>
-	      			<ul class="nav navbar-nav navbar-right">
-				        <li><a href="login">Login</a></li>
-				        <li><a href="signup">Sign Up</a></li>
-			        </ul>
-	    		</div>
-  			</div>
-		</nav>
-	</div>
+	<c:import url="/head"/>
 
 	<!--  -->
 	
@@ -162,13 +144,13 @@
     <br>
     
     <!--  -->
-    
+    <c:if test="${not empty ADMIN}">
     <div id='add' style="position: absolute; left: 0px;  width: 4vw; top: 100px; z-index: 3; background-color: #EEEEEE; box-shadow: 5px 5px 20px #333333;">
 	
 		<button id="show_hide_add" style="z-index: 2; bottom: 0px; right: -50px; position: absolute; width: 50px; height: 100%; background-color: rgb(128,0,0); color: #FFFFFF; box-shadow: 2px 2px 20px #000000; border: 1px solid #FFC706; font-style: italic;font-weight: bold;font-size: 20px;font-family: Segoe UI, Tahoma, sans-serif; outline: none; padding-left: 5px; padding-right: 5px; "  > &nbsp; Add &nbsp;</button>
 	
 		<!--  -->
-		<form:form action="InsertItem" method="POST" modelAttribute="addItem">
+		<form:form action="InsertItem?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" method="POST" modelAttribute="addItem">
 					
 					<script type="text/css">
 					</script>
@@ -201,7 +183,19 @@
 							  	
 							  	<tr>
 							  		<td><form:label path="image" for="image">Image:</form:label></td>
-							  		<td><form:input path="image" type="text" class="form-control" id="image"/></td>
+							  		<td>
+							  		<label class="form-control"><span id="file_display">Choose Image</span><span style="position: relative; "><form:input path="file" onchange="changeFileDisplay();" type="file" style="opacity:0;" class="form-control"  id="imageFile"/></span></label>
+							  		
+							  		<script type="text/javascript">
+							  			
+							  			function changeFileDisplay()
+							  			{
+							  				document.getElementById("file_display").innerHTML = $('#imageFile').val();;
+							  			}
+							  		
+							  		</script>
+							  		
+							  		</td>
 							  	</tr>
 							  	
 							  	<tr>
@@ -224,7 +218,7 @@
 		<!--  -->
 		
 	</div>
-    
+    </c:if>
     <!--  -->
     <script type="text/javascript">
 
@@ -286,13 +280,30 @@
 									
 									<div class="rTableHeading row">
 									
-										<div class="col-xs-2">Product Id</div>
-										<div class="col-xs-2">Name</div>
-										<div class="col-xs-2">Image</div>
-										<div class="col-xs-2">Edit</div>
-										<div class="col-xs-2">Delete</div>
-										<div class="col-xs-2">View Details</div>
-									
+										<c:choose>
+											
+											<c:when test="${not empty ADMIN}">
+											
+												<div class="col-xs-2">Product Id</div>
+												<div class="col-xs-2">Name</div>
+												<div class="col-xs-2">Image</div>
+												<div class="col-xs-2">Edit</div>
+												<div class="col-xs-2">Delete</div>
+												<div class="col-xs-2">View Details</div>
+											
+											</c:when>
+											
+											<c:otherwise>
+											
+												<div class="col-xs-3">Product Id</div>
+												<div class="col-xs-3">Name</div>
+												<div class="col-xs-3">Image</div>
+												<div class="col-xs-3">View Details</div>
+											
+											</c:otherwise>
+											
+										</c:choose>
+										
 										<div style="width: 98%; height: 1px; background-color: #CCCCCC;" class="center"></div>
 									
 									</div>
@@ -301,26 +312,47 @@
 								
 									<div ng-repeat="x in data | filter: searchKeyword" ng-init="number = countInit()" class="row" >
 									
+									
 										<form:form action="DeleteItem" method="POST" modelAttribute="deleteItem">
 									
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2">{{ x.Product_Id }}</div>
+										<c:choose>
+											
+											<c:when test="${not empty ADMIN}">
+												
+											
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" >{{ x.Product_Id }}</div></div>
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" >{{ x.Name }}</div></div>
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" ><img ng-src="{{ x.Image }}" width="120" height="80" class="img-circle img-responsive"></img></div></div>
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" > <button type="button" class="btn btn-primary btn-responsive" ng-click="raiseEdit(number);">Edit</button> </div></div>
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" > <button type="submit" class="btn btn-primary btn-responsive">Delete</button> </div></div>
+												<div class="col-xs-2"><div style="padding-top: 2%;padding-bottom: 2%;" > <button type="button" class="btn btn-primary btn-responsive" ng-click="submitForView(number)">View</button> </div></div>
+											
+											</c:when>
+											
+											<c:otherwise>
+											
+												<div class="col-xs-3"><div style="padding-top: 2%;padding-bottom: 2%;" >{{ x.Product_Id }}</div></div>
+												<div class="col-xs-3"><div style="padding-top: 2%;padding-bottom: 2%;" >{{ x.Name }}</div></div>
+												<div class="col-xs-3"><div style="padding-top: 2%;padding-bottom: 2%;" ><img ng-src="{{ x.Image }}" class="img-circle img-responsive"></img></div></div>
+												<div class="col-xs-3"><div style="padding-top: 2%;padding-bottom: 2%;" > <button type="button" class="btn btn-primary btn-responsive" ng-click="submitForView(number)">View</button> </div></div>
+											
+											</c:otherwise>
+											
+										</c:choose>
+									
+										
 										
 										<form:input path="productId" type="hidden" id="ipid" value="{{ x.Product_Id }}"/>
 										<form:input path="groupName" type="hidden" id="igname" value="{{ x.Group_Name }}"/>
 										
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2">{{ x.Name }}</div>
+										
 										<form:input path="name" type="hidden" id="iname" value="{{ x.Name }}"/>
 										
 										<form:input path="price" type="hidden" id="iprice" value="{{ x.Price }}"/>
 										<form:input path="qty" type="hidden" id="iqty" value="{{ x.Qty }}"/>
 										<form:input path="description" type="hidden" id="idescription" value="{{ x.Description }}"/>
 										
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2"><img ng-src="{{ x.Image }}" width="120" height="60" class="img-circle img-responsive"></img></div>
 										<form:input path="image" type="hidden" id="iimage" value="{{ x.Image }}"/>
-										
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2"> <button type="button" class="btn btn-primary btn-responsive" ng-click="raiseEdit(number);">Edit</button> </div>
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2"> <button type="submit" class="btn btn-primary btn-responsive">Delete</button> </div>
-										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-2"> <button type="button" class="btn btn-primary btn-responsive" ng-click="submitForView(number)">View</button> </div>
 										
 										<div style="width: 98%; height: 1px; background-color: #CCCCCC;" class="center"></div>
 									
@@ -341,7 +373,8 @@
     <br><br>		
     
     <!--  -->
-		<form:form action="EditItem" method="POST" modelAttribute="editItem">
+    
+		<form:form action="EditItem?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" method="POST" modelAttribute="editItem">
 					
 					<script type="text/css">
 					</script>
@@ -351,11 +384,23 @@
 					
 					    	<div id="editForm" style="position: fixed; width: 100%; height: 0%; bottom: 0vw; background-color: #EEEEEE; box-shadow: 0px -5px 20px #000000;" class="table-responsive">
 							  
-							  <div style="padding-top: 2%;padding-bottom: 2%;" class="center"> <button type="button" class="btn btn-primary btn-responsive" ng-click="killEdit()">Close</button> </div>
+							  
+							  
 							  
 							  <form:input path="productId" type="text" ng-show="false" ng-model="currItem.Product_Id"/>
 							  
 							  <table style="width: 80%; bottom: 0px;" class="table center">
+							  	<tr>
+							  		<td>
+							  			<div style="padding-top: 2%;padding-bottom: 2%;" >
+											<button type="button" class="btn btn-primary btn-responsive" ng-click="killEdit()">Close</button> 
+								  			&nbsp;&nbsp;&nbsp;
+								  			<button type="submit" class="btn btn-primary btn-responsive">Submit</button> 
+								  		</div>
+									</td>
+							  		
+							  	</tr>
+							  	
 							  	<tr>
 							  		<td><form:label path="name" for="name">Name:</form:label></td>
 							  		<td><form:input path="name" type="text" class="form-control" id="name" ng-model="currItem.Name"/></td>
@@ -379,23 +424,29 @@
 							  	
 							  	<tr>
 							  		<td><form:label path="image" for="image">Image:</form:label></td>
-							  		<td><form:input path="image" type="text" class="form-control" id="image" ng-model="currItem.Image" /></td>
-							  	</tr>
-							  	
-							  	<tr>
-							  		<td colspan="2" >
-							  		<div class="row">
-									    <div class="col-md-2 col-md-offset-5"> <button type="submit" class="btn btn-default">Submit</button> </div>
-									</div>
-							  		</td>
+							  		<td>
+							  		
+							  			<label class="form-control"><span id="file_display1">Choose Image</span><span style="position: relative; "><form:input path="file" onchange="changeFileDisplay1();" type="file" style="opacity:0;" class="form-control"  id="imageFile1"/></span></label>
+							  		
+								  		<script type="text/javascript">
+								  			
+								  			function changeFileDisplay1()
+								  			{
+								  				document.getElementById("file_display1").innerHTML = $('#imageFile1').val();;
+								  			}
+								  		
+								  		</script>
+							  		
+									</td>
 							  	</tr>
 							  	
 							  </table>
+							  
 							</div>
 					    
 					<br><br>
 					<br><br>
-					<br>
+					<br><br><br><br><br>
 					
 	                
 		</form:form>
@@ -415,12 +466,5 @@
 		</form:form>
 		<!--  -->
     	
-					
-	<footer class="container-fluid text-center">
-		<p><b>&copy; Vasudev Vashisht</b></p>
-	</footer>
-				
-				
-	<br><br>
-
+		
 </body>

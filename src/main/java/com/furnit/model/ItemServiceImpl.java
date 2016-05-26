@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.furnit.UserModel.User;
+
 @Service
 public class ItemServiceImpl implements ItemService 
 {
@@ -31,4 +33,11 @@ public class ItemServiceImpl implements ItemService
 	public List<Item> getAllItems() {
 		return dao.getAllItems();
 	}
+
+	@Transactional
+	public Item getItemWithMaxId() {
+		return dao.getItemWithMaxId();
+	}
+
+	
 }

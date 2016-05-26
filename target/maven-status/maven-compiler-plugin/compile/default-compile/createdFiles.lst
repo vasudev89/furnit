@@ -1,0 +1,17 @@
+com\furnit\model\datajs.class
+com\furnit\model\ItemDAO.class
+com\furnit\UserRoles\UserRoleServiceImpl.class
+com\furnit\UserModel\UserService.class
+com\furnit\FurnitController.class
+com\furnit\UserModel\UserDAO.class
+com\furnit\model\ItemServiceImpl.class
+com\furnit\model\Item.class
+com\furnit\UserModel\UserDAOImpl.class
+com\furnit\model\ItemService.class
+com\furnit\UserModel\User.class
+com\furnit\UserModel\UserServiceImpl.class
+com\furnit\model\ItemDAOImpl.class
+com\furnit\UserRoles\UserRoleService.class
+com\furnit\UserRoles\UserRoleDAO.class
+com\furnit\UserRoles\UserRoleDAOImpl.class
+com\furnit\UserRoles\UserRole.class

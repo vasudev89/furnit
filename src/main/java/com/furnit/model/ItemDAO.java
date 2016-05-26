@@ -8,4 +8,5 @@ public interface ItemDAO
 	public void deleteItem(int i);
 	public void updateItem(Item i);
     public List<Item> getAllItems();
+    public Item getItemWithMaxId();
 }

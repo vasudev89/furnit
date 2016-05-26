@@ -3,6 +3,9 @@ package com.furnit.model;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.furnit.UserModel.User;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,19 @@ public class ItemDAOImpl implements ItemDAO
 
 	public List<Item> getAllItems() {
 		return sessionFactory.getCurrentSession().createQuery("from Item").list();
+	}
+
+	public Item getItemWithMaxId() {
+		List l = sessionFactory.getCurrentSession().createQuery("from Item as i where i.ProductId = ( select max(a.ProductId) from Item as a )").list();
+		
+		if (l.size()>0)
+		{
+			return (Item)l.get(0);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Item implements Serializable
@@ -18,9 +21,23 @@ public class Item implements Serializable
 	private String Price = "";
 	private String Qty = "";
 	private String Description = "";
+	
+	@Transient
 	private String Image = "";
 	
+	@Transient
+	private MultipartFile File;
 	
+	
+
+	public MultipartFile getFile() {
+		return File;
+	}
+
+	public void setFile(MultipartFile file) {
+		File = file;
+	}
+
 	public int getProductId() {
 		return ProductId;
 	}
@@ -98,7 +115,7 @@ public class Item implements Serializable
 	@Override
 	public String toString() {
 		return "{Product_Id:\"" + ProductId + "\", Group_Name:\"" + GroupName + "\", Name:\"" + Name + "\", Price:\"" + Price
-				+ "\", Qty:\"" + Qty + "\", Description:\"" + Description + "\", Image:\"" + Image + "\"}";
+				+ "\", Qty:\"" + Qty + "\", Description:\"" + Description + "\", Image:\"resources/images/image_"+ProductId+".jpg\"}";
 	}
 	
 	public static void main(String args[])
