@@ -32,7 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
@@ -172,6 +172,12 @@ public class FurnitController {
 		
 		//c.setCartItems(cartItems);
 		
+		if( cr.getAllItems() != null )
+	    	for( Cart cart: cr.getAllItems())
+		    {
+		    	cr.delete(((Cart)cart).getCartID());
+		    }
+		
 		return mav;
 	}
 	
@@ -235,8 +241,13 @@ public class FurnitController {
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    if (auth != null){    
-	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	        
+	    	System.out.println("In LogOut");
+	    	new SecurityContextLogoutHandler().logout(request, response, auth);
+	        
+	        
 	    }
+	    
 	    return "index";
 	}
 	
@@ -249,6 +260,19 @@ public class FurnitController {
 		mav.addObject("addUser", new User());
 		
 		return mav ;
+	}
+	
+	@RequestMapping(value="/initiateFlow" , method = RequestMethod.GET)
+	public String redirect(HttpServletRequest request, Model model){
+		
+		String retval = "";
+		
+		if( request.getUserPrincipal() == null )
+			retval = "redirect:/cart?user=none";
+		else
+			retval = "redirect:/cart?user="+request.getUserPrincipal().getName();
+			
+		return retval;
 	}
 	
 	@RequestMapping(value="/InsertUser" , method = RequestMethod.POST)
@@ -360,6 +384,19 @@ public class FurnitController {
 	public ModelAndView viewcartconfirmdetails(HttpServletRequest request) throws IOException{
 		
 		ModelAndView mav = new ModelAndView("flows/viewcartconfirmdetails");
+		
+		if( request.getUserPrincipal() != null )
+		{
+			Cart c = cr.getCartByUsername(request.getUserPrincipal().getName());
+			
+			mav.addObject("shippingAddress", c.getAddress() );
+			mav.addObject("billingAddress", c.getBillingAddress() );
+		}
+		else
+		{
+			mav.addObject("shippingAddress", "" );
+			mav.addObject("billingAddress", "" );
+		}
 		
 		return mav ;
 	}

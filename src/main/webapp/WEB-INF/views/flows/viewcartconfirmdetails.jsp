@@ -122,7 +122,7 @@
 		
 		$scope.data = [];
 		
-		$scope.address = {shippingAddress : "" , billingAddress : "" };
+		$scope.address = {shippingAddress : "${shippingAddress}" , billingAddress : "${billingAddress}" };
 		
 		<c:if test="${not empty datavalue}">
 		$scope.data = ${dataValue};

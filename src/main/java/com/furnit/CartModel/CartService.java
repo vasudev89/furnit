@@ -12,4 +12,6 @@ public interface CartService {
     void delete(int i);
     
     public List<Cart> getAllItems();
+    
+    Cart getCartByUsername(String Username);
 }

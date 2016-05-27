@@ -2,6 +2,7 @@ package com.furnit;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.furnit.CartModel.Cart;
 import com.furnit.CartModel.CartService;
+import com.furnit.UserModel.User;
+import com.furnit.UserModel.UserService;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,11 +33,14 @@ public class CartRESTController {
 	@Autowired
 	CartService cs;
 	
+	@Autowired
+    UserService ur;
+	
 	//-------------------Create a User--------------------------------------------------------
 	
 	@CrossOrigin
     @RequestMapping(value = "/flows/createItem/", method = RequestMethod.POST)
-    public ResponseEntity<String> createUser(HttpServletResponse response,@RequestBody JSONObject cart,    UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<String> createUser(HttpServletRequest request, HttpServletResponse response,@RequestBody JSONObject cart,    UriComponentsBuilder ucBuilder) {
         
 		System.out.println(cart.get("ProductID"));
         
@@ -49,6 +55,18 @@ public class CartRESTController {
 		mycart.setUserID(cart.get("UserName").toString());
 		mycart.setAddress(cart.get("Address").toString());
 		mycart.setBillingAddress(cart.get("BillingAddress").toString());
+		
+		if( request.getUserPrincipal() != null )
+		{
+			User u = ur.getUser(request.getUserPrincipal().getName());
+			
+			if( u != null )
+			{
+				mycart.setAddress(u.getAddress());
+				mycart.setBillingAddress(u.getAddress());
+			}
+			
+		}
 		
 		System.out.println(cart.get("UserName").toString());
 		

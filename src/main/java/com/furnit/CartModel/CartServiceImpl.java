@@ -39,4 +39,9 @@ public class CartServiceImpl implements CartService
 		return dao.getAllItems();
 	}
 
+	@Transactional
+	public Cart getCartByUsername(String Username) {
+		return dao.getCartByUsername(Username);
+	}
+
 }

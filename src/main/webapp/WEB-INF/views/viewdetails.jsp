@@ -105,7 +105,7 @@
 	
 ///////////////////////////////////////
 	
-	myApp.controller("myCtrl", ['$scope', 'UserService' ,function($scope , $UserService){
+	myApp.controller("myCtrl", ['$scope' , '$timeout' , 'UserService' ,function($scope , $timeout , $UserService){
 		
 		$scope.data = [];
 		
@@ -128,6 +128,12 @@
         	);
         	
         	console.log(resp);
+        	
+        	$timeout(function()
+        	{
+        		$("#beginflow").submit();
+        	}, 500);
+        	
 		}
 		
 	}]);
@@ -220,6 +226,10 @@
 					
 					
 	                
+					</form>
+					
+					<form id="beginflow" action="initiateFlow" method="get" >
+						<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
 					</form>
 					
 					<br>

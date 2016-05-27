@@ -8,6 +8,8 @@ import com.furnit.model.Item;
 public interface CartDAO
 {
 	Cart getCartById(int cartId);
+	
+	Cart getCartByUsername(String Username);
 
     void update(Cart cart);
     

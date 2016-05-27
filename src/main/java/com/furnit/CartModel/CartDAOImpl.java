@@ -53,6 +53,15 @@ public class CartDAOImpl implements CartDAO
 	public List<Cart> getAllItems() {
 		return sessionFactory.getCurrentSession().createQuery("from Cart").list();
 	}
+
+	public Cart getCartByUsername(String Username) {
+		List l = sessionFactory.getCurrentSession().createQuery("from Cart where Username = :Username").setString("Username", Username).list();
+		
+		if( l.size() > 0 )
+			return (Cart)l.get(0);
+		else
+			return null;
+	}
 	
 
 }

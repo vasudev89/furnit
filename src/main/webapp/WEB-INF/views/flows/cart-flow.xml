@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/webflow
+http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
+ 
+	<var name="cart" class="com.furnit.CartModel.Cart" />
+ 	
+ 	<action-state id="addCartToOrder">
+        <evaluate expression="CartService.getCartByUsername(requestParameters.user)" result="cart" />
+        <transition to="loginviewstate" on-exception="java.lang.NullPointerException" />
+        <transition to="run" on="success" />
+    </action-state>
+ 	
+	<view-state id="run" view="/WEB-INF/views/flows/viewcart.jsp"/>
+	
+	<view-state id="loginviewstate" view="/WEB-INF/views/login.jsp"/>
+	<view-state id="goToProducts" view="/WEB-INF/views/product.jsp"/>
+	 
+	
+</flow>
