@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO
 	}
 
 	public User getUser(String i) {
-		List l = sessionFactory.getCurrentSession().createQuery("from User as i where i.Email = :email").setString("email", i).list();
+		List l = sessionFactory.getCurrentSession().createQuery("from User as i where i.Username = :username").setString("username", i).list();
 		if (l.size()>0)
 		{
 			return (User)l.get(0);

@@ -2,15 +2,22 @@ package com.furnit.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.furnit.CartModel.Cart;
+
 @Entity
+@Embeddable
 public class Item implements Serializable
 {
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,7 +36,8 @@ public class Item implements Serializable
 	private MultipartFile File;
 	
 	
-
+	
+	
 	public MultipartFile getFile() {
 		return File;
 	}

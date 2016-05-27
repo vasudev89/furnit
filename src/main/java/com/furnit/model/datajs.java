@@ -26,6 +26,8 @@ public class datajs
 		else
 			retval = "[" + retval.substring(0, retval.length()-1) + "]";
 		
+		System.out.print(retval);
+		
 		return retval;
 	}
 }

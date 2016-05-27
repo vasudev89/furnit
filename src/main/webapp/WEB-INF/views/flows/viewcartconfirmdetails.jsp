@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <head>
 	
-	<link rel="stylesheet" href="resources/references/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/references/css/bootstrap.min.css">
 	
 	<style>
 		.center
@@ -83,6 +83,19 @@
                                     }
                             );
             },
+            
+            updateAll: function(item){
+                return $http.post('http://localhost:9001/furnit/flows/updateAddresses/', item)
+                        .then(
+                                function(response){
+                                    return response.data;
+                                }, 
+                                function(errResponse){
+                                    console.error('Error while updating item');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+        	},
              
             deleteItem: function(id){
                     return $http.post('http://localhost:9001/furnit/flows/deleteItem/'+id)
@@ -109,11 +122,33 @@
 		
 		$scope.data = [];
 		
+		$scope.address = {shippingAddress : "" , billingAddress : "" };
+		
 		<c:if test="${not empty datavalue}">
 		$scope.data = ${dataValue};
 		</c:if>
 		
-		$scope.item = {ProductID: '${productId}' ,Name: '${name}',Address:"${address}", UserName: '${pageContext.request.userPrincipal.name}' , Price: '${price}' , Qty: 1, BillingAddress: "${address}" };
+		$scope.updated = '';
+		
+		$UserService.fetchAllItems().then(
+			    function(result) {
+			    	$scope.data = result;
+			        console.log(result);
+			        
+			        $scope.totalPrice = 0;
+					
+					angular.forEach($scope.data, function(value, key) {
+						  
+							//console.log(value.Price);
+							
+								$scope.totalPrice += parseInt(value.Price * value.Qty);
+						});
+			     }
+			 );;
+		
+		console.log($scope.data);
+		
+		$scope.item = {ProductID: '${productId}' ,Name: '${name}',Address:'', UserName: '${pageContext.request.userPrincipal.name}' , Price: '${price}' , Qty: 1};
         
         console.log( $scope.item );
         
@@ -129,7 +164,34 @@
         	
         	console.log(resp);
 		}
-		
+	
+        $scope.countInit = function()
+		{
+			return $scope.count++;
+		}
+        
+        $scope.deleteItem = function(arg)
+		{
+			//alert(arg);
+			$UserService.deleteItem(arg).then(
+				    function(result) {
+				    	$scope.data = result;
+				        console.log(result);
+				     }
+				 );
+		}
+        
+        $scope.update = function()
+		{
+			//alert(arg);
+			$UserService.updateAll($scope.address).then(
+				    function(result) {
+				    	$scope.updated = result.status;
+				        console.log(result);
+				     }
+				 );
+		}
+        
 	}]);
 	
 	
@@ -137,8 +199,8 @@
 
 <body ng-app="myApp" ng-controller="myCtrl">
 
-	<script type="text/javascript" src="resources/references/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="resources/references/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/bootstrap.min.js"></script>
 
 	<c:import url="/head"/>
 
@@ -152,7 +214,6 @@
 	<div>                
                 
     <br><br>
-    <br>
     
     <!--  -->
     
@@ -163,56 +224,52 @@
 					</script>
 					
 					<div class="container">
+						<div class="row">
+					    	<div class="col-lg-12 col-centered">
+					    		<div class="row">
+					    		
+					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
+					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-success btn-responsive center"><span class="glyphicon glyphicon-chevron-left" ></span> &nbsp;&nbsp; Continue Shopping</button> </div>
+									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-danger btn-responsive center">Checkout &nbsp;&nbsp; <span class="glyphicon glyphicon-chevron-right" ></span></button> </div>
+									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
+					    		
+					    		</div>
+							</div>
+						</div>
+					</div>
+					
+					<br><br>
+					
+					<div class="container">
 					<div class="row">
 					    <div class="col-lg-12 col-centered">
+					    
+					    	
+					    
 					    	<div class="table-responsive">
-							  
 							  <table style="width: 80%;" class="table center">
-							  	<tr>
-							  		<td><div class="img-circle img-responsive nopadding center_img" style="background-image: url(${productimage}); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
-							  	</tr>
-							  	
-							  	
-							  	
 							  	
 							  	<tr>
-							  		<td><label>Product ID:</label></td>
-							  		<td><label>${productId}</label></td>
+							  		<td><label path="address" for="address">Shipping Address:</label></td>
+							  		<td><textarea path="address" class="form-control" id="address" ng-model="address.shippingAddress"></textarea></td>							  		
 							  	</tr>
 							  	
 							  	<tr>
-							  		<td><label>Name:</label></td>
-							  		<td><label>${name}</label></td>
+							  		<td><label path="address" for="address">Billing Address:</label></td>
+							  		<td><textarea path="address" class="form-control" id="address" ng-model="address.billingAddress"></textarea></td>							  		
 							  	</tr>
 							  	
 							  	<tr>
-							  		<td><label>Group Name:</label></td>
-							  		<td><label>${groupName}</label></td>
+							  		<td><div style="padding-top: 2%;padding-bottom: 2%;" > <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" ng-click="update();" class="btn btn-primary btn-responsive center">&nbsp;&nbsp;Update</button> </div></td>
+							  		<td><div><div style="font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" class="alert alert-success">{{updated}}</div></div></td>							  		
 							  	</tr>
 							  	
-							  	<tr>
-							  		<td><label>Description:</label></td>
-							  		<td><label>${description}</label></td>
-							  	</tr>
-							  	
-							  	<tr>
-							  		<td><label>Price:</label></td>
-							  		<td><label>${price} &nbsp; INR</label></td>
-							  	</tr>
-							  	
-							  	<tr>
-							  		<td><label>Quantity:</label></td>
-							  		<td><input type="number" class="form-control" style="text-align: center;" min="1" max="100" value="1" ng-model="item.Qty" /> </td>
-							  	</tr>
-							  	
-							  	<tr>
-							  		<td></td>
-							  		<td><button type="button" ng-click="AddToCart();" class="btn btn-success btn-responsive">Add To Cart</button> </td>
-							  		
-							  	</tr>
 							  	
 							  	
 							  </table>
+							  
+							  <br><br>
+							  
 							</div>
 					    </div>
 					</div>
@@ -224,8 +281,8 @@
 					
 					<br>
 					<br>
+					<br>
 					
-	                
 				
 				<br><br>
 

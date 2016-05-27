@@ -266,13 +266,10 @@
     				
     	<form:form id="viewdetails" action="ViewUser" method="POST" modelAttribute="viewUser">
 					
-					<form:input path="email" type="text" ng-show="false" ng-model="currItem.Email"/>
+					<form:input path="username" type="text" ng-show="false" ng-model="currItem.Username"/>
 					   
 		</form:form>
     				
-	<footer class="container-fluid text-center">
-		<p><b>&copy; Vasudev Vashisht</b></p>
-	</footer>
 				
 				
 	<br><br>

@@ -10,6 +10,8 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.furnit.CartModel.Cart;
+import com.furnit.CartModel.CartService;
 import com.furnit.UserModel.User;
 import com.furnit.UserModel.UserService;
 import com.furnit.UserModel.udatajs;
@@ -150,6 +152,9 @@ public class FurnitController {
     UserService ur;
 	
 	@Autowired
+    CartService cr;
+	
+	@Autowired
     ServletContext context;
 	
 	@RequestMapping(value="/" , method = RequestMethod.GET)
@@ -158,6 +163,14 @@ public class FurnitController {
 		ModelAndView mav = new ModelAndView("index");
 		
 		urs.generateUserRoles();
+		
+		Cart c = new Cart();
+		
+		Item i = new Item();
+		
+		//List cartItems = new ArrayList();
+		
+		//c.setCartItems(cartItems);
 		
 		return mav;
 	}
@@ -333,6 +346,42 @@ public class FurnitController {
 		return mav ;
 	}
 	
+	@RequestMapping(value="/flows/viewcart" , method = RequestMethod.GET)
+	public ModelAndView viewcart(HttpServletRequest request) throws IOException{
+		
+		ModelAndView mav = new ModelAndView("flows/viewcart");
+		
+		mav.addObject("dataValue", getAllItems());
+		
+		return mav ;
+	}
+
+	@RequestMapping(value="/flows/viewcartconfirmdetails" , method = RequestMethod.GET)
+	public ModelAndView viewcartconfirmdetails(HttpServletRequest request) throws IOException{
+		
+		ModelAndView mav = new ModelAndView("flows/viewcartconfirmdetails");
+		
+		return mav ;
+	}
+	
+	@RequestMapping(value="/flows/viewcartthankyoupage" , method = RequestMethod.GET)
+	public ModelAndView viewcartthankyoupage(HttpServletRequest request) throws IOException{
+		
+		ModelAndView mav = new ModelAndView("flows/viewcartthankyoupage");
+		
+		return mav ;
+	}
+	
+	@RequestMapping(value="/flows/viewcartcompleteorder" , method = RequestMethod.GET)
+	public ModelAndView viewcartcompleteorder(HttpServletRequest request) throws IOException{
+		
+		ModelAndView mav = new ModelAndView("flows/viewcartcompleteorder");
+		
+		mav.addObject("dataValue", getAllItems());
+		
+		return mav ;
+	}
+	
 	@RequestMapping(value="/InsertItem" , method = RequestMethod.POST)
 	public ModelAndView productInsert(HttpServletRequest request,
 					@ModelAttribute("addItem")Item i, 
@@ -494,13 +543,27 @@ public class FurnitController {
 	        mav.addObject("ADMIN", "ADMIN");
 	    }
 		
+		if( request.getUserPrincipal() != null )
+		{
+			User u = ur.getUser(request.getUserPrincipal().getName());
+			mav.addObject("address", u.getAddress() );
+		}
+		else
+		{
+			mav.addObject("address", "" );
+		}
+		
 		mav.addObject("productimage", i.getImage() );
 		mav.addObject("productId", i.getProductId() );
 		mav.addObject("name", i.getName() );
 		mav.addObject("groupName", i.getGroupName() );
 		mav.addObject("description", i.getDescription() );
+		
+		System.out.println(i.getPrice());
+		
 		mav.addObject("price", i.getPrice() );
 		mav.addObject("qty", i.getQty() );
+		
 		
 		return mav ;
 	}
@@ -529,9 +592,9 @@ public class FurnitController {
 	        mav.addObject("ADMIN", "ADMIN");
 	    }
 		
-		User i = ur.getUser(u.getEmail());
+		User i = ur.getUser(u.getUsername());
 		
-		System.out.println(u.getEmail());
+		System.out.println(u.getUsername());
 		
 		if(i!=null)
 		{
@@ -564,7 +627,7 @@ public class FurnitController {
 		{
 			for( Schema s : al )
 			{
-				User temp = ur.getUser( s.u.getEmail() );
+				User temp = ur.getUser( s.u.getUsername() );
 				
 				s.u.setPassword(temp.getPassword());
 				

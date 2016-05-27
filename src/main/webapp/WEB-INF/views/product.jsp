@@ -178,7 +178,7 @@
 							  	
 							  	<tr>
 							  		<td><form:label path="price" for="price">Price:</form:label></td>
-							  		<td><form:input path="price" type="text" class="form-control" id="price"/></td>
+							  		<td><form:input path="price" type="text" class="form-control" id="price"/> &nbsp; INR</td>
 							  	</tr>
 							  	
 							  	<tr>

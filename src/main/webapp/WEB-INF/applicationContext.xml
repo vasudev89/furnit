@@ -18,6 +18,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     
     <tx:annotation-driven />		
           
+          
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     	<property name="prefix" value="/WEB-INF/views/" />
       	<property name="suffix" value=".jsp" />
@@ -50,6 +51,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		<value>com.furnit.model</value>
 		<value>com.furnit.UserModel</value>
 		<value>com.furnit.UserRoles</value>
+		<value>com.furnit.CartModel</value>
 		</list>
 		</property>
 	</bean>	

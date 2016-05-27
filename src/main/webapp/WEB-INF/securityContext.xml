@@ -20,6 +20,8 @@
         <!-- Restrict URLs based on role -->
         <security:intercept-url pattern="/**" access="permitAll or hasRole('USER') or hasRole('ADMIN')" />
         
+        <security:intercept-url pattern="/flows/createItem" access="permitAll" method="POST" />
+        
         <!-- Override default login and logout pages -->
         <security:form-login login-page="/loginpage" 
         					 username-parameter="email"
@@ -27,12 +29,14 @@
                              default-target-url="/index" 
                              authentication-failure-url="/loginpage?error=1" />
         <security:logout logout-url="/logout" logout-success-url="/index" />
+        
+         <security:csrf disabled="true"/>
     </security:http>
 
     <security:authentication-manager>
         <security:authentication-provider >
             
-            <security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select email,password,active from user where email=?" authorities-by-username-query="SELECT a.EMAIL,b.ROLENAME FROM USER a , USERROLE b where a.ROLE = b.ROLE and a.EMAIL=?;" />
+            <security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select username,password,active from user where username=?" authorities-by-username-query="SELECT a.USERNAME,b.ROLENAME FROM USER a , USERROLE b where a.ROLE = b.ROLE and a.USERNAME=?;" />
             
         </security:authentication-provider>
     </security:authentication-manager>

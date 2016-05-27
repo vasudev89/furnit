@@ -154,7 +154,25 @@
 		   <version>1.2.1</version> <!-- makesure correct version here -->
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+			<version>2.3.3.RELEASE</version>
+		</dependency>
 		
+		<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>2.5.3</version>
+	    </dependency>
+	    
+	    <!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1</version>
+		</dependency>
+			    
 		
 	</dependencies>  
   

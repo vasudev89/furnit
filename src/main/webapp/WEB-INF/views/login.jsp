@@ -67,7 +67,7 @@
 					    		<!--  -->
 					    		<c:if test="${param.error != null}">
 	                                <div class="alert alert-danger">
-	                                    <p>Invalid Email and password.</p>
+	                                    <p>Invalid Username and password.</p>
 	                                </div>
 	                            </c:if>
 	                            <c:if test="${param.logout != null}">
@@ -79,8 +79,8 @@
 					    		
 							  <table style="width: 80%;" class="table center">
 							  	<tr>
-							  		<td><label for="email">Email address:</label></td>
-							  		<td><input type="email" class="form-control" id="email" name="email" autofocus="true" required></td>
+							  		<td><label for="email">Username:</label></td>
+							  		<td><input type="text" class="form-control" id="email" name="email" autofocus="true" required></td>
 							  	</tr>
 							  	
 							  	<tr>
