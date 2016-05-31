@@ -35,63 +35,196 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/angular.min.js"></script>
 
 <script type="text/javascript">
+'use strict';
+	
 	var myApp = angular.module("myApp",[]);
-	myApp.controller("myCtrl",function($scope ,$timeout){
+	
+	///////////////////////////////////////
+	
+	myApp.factory('UserService', ['$http', '$q', function($http, $q){
+	 
+    return {
+         
+    	    fetchAllItems: function() {
+                    return $http.post('http://localhost:9001/furnit/flows/fetchitems/')
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while fetching items');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            
+            clearCart: function() {
+                return $http.post('http://localhost:9001/furnit/flows/clearCart/')
+                        .then(
+                                function(response){
+                                    return response.data;
+                                }, 
+                                function(errResponse){
+                                    console.error('Error while fetching items');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+        	},
+             
+            createItem: function(item){
+                    return $http.post('http://localhost:9001/furnit/flows/createItem/', item)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while creating item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            
+            updateItem: function(item, id){
+                    return $http.post('http://localhost:9001/furnit/flows/createItem/'+id, item)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while updating item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            
+            updateAll: function(item){
+                return $http.post('http://localhost:9001/furnit/flows/updateAddresses/', item)
+                        .then(
+                                function(response){
+                                    return response.data;
+                                }, 
+                                function(errResponse){
+                                    console.error('Error while updating item');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+        	},
+             
+            deleteItem: function(id){
+                    return $http.post('http://localhost:9001/furnit/flows/deleteItem/'+id)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while deleting item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            }
+         
+    };
+ 
+}]);
+
+//////////////////////////////////////////////////
+	
+///////////////////////////////////////
+	
+	myApp.controller("myCtrl", ['$scope', 'UserService' ,function($scope , $UserService){
 		
-		$scope.edit = true;
+		$scope.data = [];
 		
-		$scope.file_display = 'Choose Image';
+		$scope.address = {shippingAddress : "${shippingAddress}" , billingAddress : "${billingAddress}" };
 		
-		$scope.count = 0;
-		
-		//$scope.data = data;
+		<c:if test="${not empty datavalue}">
 		$scope.data = ${dataValue};
-		//$scope.searchKeyword = ${searchKey};
-		$scope.currItem = {Product_Id:"117", Group_Name:"beds", Name:"bed", Price:"66", Qty:"", Description:"", Image:"resources/images/beddisplay.jpg"};
-		$scope.raiseEdit = function(arg)
-		{
-			if( $scope.edit )
-	    	{
-	    		$("#editForm").animate({height: '+=25vw'}, "fast");
-	    		$scope.edit = !$scope.edit;
-	    	}
-			
-			$scope.currItem = $scope.data[arg];
-		};
+		</c:if>
 		
-		$scope.killEdit = function()
-		{
-			if( !$scope.edit )
-	    	{
-	    		$("#editForm").animate({height: '0vw'}, "fast");
-	    		$scope.edit = !$scope.edit;
-	    	}
-		};
+		$scope.updated = '';
 		
-		$scope.countInit = function()
+		$UserService.clearCart().then(
+			    function(result) {
+			    	console.log(result);
+			        
+			     }
+			 );
+		
+		$UserService.fetchAllItems().then(
+			    function(result) {
+			    	$scope.data = result;
+			        console.log($scope.data[0]);
+			        
+			        $scope.address = {shippingAddress : $scope.data[0].Address , billingAddress : $scope.data[0].BillingAddress };
+			        
+			        $scope.totalPrice = 0;
+					
+					angular.forEach($scope.data, function(value, key) {
+						  
+							//console.log(value.Price);
+							
+								$scope.totalPrice += parseInt(value.Price * value.Qty);
+						});
+			     }
+			 );;
+		
+		console.log($scope.data);
+		
+		$scope.item = {ProductID: '${productId}' ,Name: '${name}',Address:'', UserName: '${pageContext.request.userPrincipal.name}' , Price: '${price}' , Qty: 1};
+        
+        console.log( $scope.item );
+        
+        $scope.AddToCart = function()
+		{
+        	var resp = $UserService.createItem($scope.item)
+            .then(
+	            self.fetchAllItems, 
+	                    function(errResponse){
+	                         console.error('Error while creating item.');
+	                    } 
+        	);
+        	
+        	console.log(resp);
+		}
+	
+        $scope.countInit = function()
 		{
 			return $scope.count++;
 		}
-		
-		$scope.fileNameChaged = function()
-		   {
-		        alert("select file");
-		   }
-		
-		$scope.submitForView = function(arg)
+        
+        $scope.deleteItem = function(arg)
 		{
-			$scope.currItem = $scope.data[arg];
-			
-			console.log($scope.currItem);
-			
-			$timeout(function()
-			{
-				$("#viewdetails").submit();
-			}, 200);
-			
+			//alert(arg);
+			$UserService.deleteItem(arg).then(
+				    function(result) {
+				    	$scope.data = result;
+				        console.log(result);
+				     }
+				 );
 		}
-		
-	});
+        
+        $scope.update = function()
+		{
+			//alert(arg);
+			$UserService.updateAll($scope.address).then(
+				    function(result) {
+				    	$scope.updated = result.status;
+				        console.log(result);
+				     }
+				 );
+		}
+        
+        $scope.backToCart = function()
+        {
+        	$("#backtocart").submit();            
+        }
+        
+        $scope.viewCompleteOrder = function()
+        {
+        	$("#viewCompleteOrder").submit();            
+        }
+        
+	}]);
 	
 	
 </script>
@@ -117,6 +250,8 @@
     <!--  -->
     
     <br><br>
+    				<c:import url="/emptycart" />
+    
 					<script type="text/css">
 					</script>
 					

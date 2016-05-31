@@ -181,5 +181,24 @@ public class CartRESTController {
 	        
 	        return new ResponseEntity<String>(json.toString(), HttpStatus.CREATED);
 	    }
+		
+		//-------------------Clear Cart--------------------------------------------------------
+		
+				@CrossOrigin
+			    @RequestMapping(value = "/flows/clearCart/", method = RequestMethod.POST)
+			    public ResponseEntity<String> clearCart(HttpServletResponse response , UriComponentsBuilder ucBuilder) {
+			        
+					if( cs.getAllItems() != null )
+				    	for( Cart cart: cs.getAllItems())
+					    {
+					    	cs.delete(((Cart)cart).getCartID());
+					    }	
+					
+					JSONObject json = new JSONObject();
+					
+					json.put("status", "Updated");
+					
+			        return new ResponseEntity<String>(json.toString(), HttpStatus.CREATED);
+			    }
 	
 }

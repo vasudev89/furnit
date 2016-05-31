@@ -400,6 +400,12 @@ public class FurnitController {
 		
 		return mav ;
 	}
+	
+	@RequestMapping(value="/emptycart" , method = RequestMethod.GET)
+	public void emptycart() throws IOException{
+		
+		System.out.println("Empty Cart");
+	}
 
 	@RequestMapping(value="/flows/viewcartconfirmdetails" , method = RequestMethod.GET)
 	public ModelAndView viewcartconfirmdetails(HttpServletRequest request) throws IOException{
@@ -426,6 +432,8 @@ public class FurnitController {
 	public ModelAndView viewcartthankyoupage(HttpServletRequest request) throws IOException{
 		
 		ModelAndView mav = new ModelAndView("flows/viewcartthankyoupage");
+		
+		System.out.println("Empty Cart");
 		
 		return mav ;
 	}
