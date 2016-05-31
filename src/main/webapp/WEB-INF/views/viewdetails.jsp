@@ -175,10 +175,8 @@
 							  
 							  <table style="width: 80%;" class="table center">
 							  	<tr>
-							  		<td><div class="img-circle img-responsive nopadding center_img" style="background-image: url(${productimage}); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
+							  		<td colspan="2"><div class="img-circle img-responsive nopadding center_img" style="background-image: url(${productimage}); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
 							  	</tr>
-							  	
-							  	
 							  	
 							  	
 							  	<tr>
@@ -213,7 +211,21 @@
 							  	
 							  	<tr>
 							  		<td></td>
-							  		<td><button type="button" ng-click="AddToCart();" class="btn btn-success btn-responsive">Add To Cart</button> </td>
+							  		
+							  		<c:choose>
+							  			<c:when test="${not empty USER}">
+							  				<td><button type="button" ng-click="AddToCart();" class="btn btn-success btn-responsive">Add To Cart</button> </td>	
+							  			</c:when>
+							  			
+							  			<c:otherwise>
+							  				<td>
+							  				<button type="button" ng-click="AddToCart();" class="btn btn-success btn-responsive" disabled>Add To Cart</button>
+							  				<span style="color: rgb(128,0,0); font-weight: bold; font-style: italic;" >&nbsp;&nbsp;&nbsp;Please Login as a Normal User to Begin Purchase</span>
+											</td>
+							  			</c:otherwise>
+							  		</c:choose>
+							  		
+							  		
 							  		
 							  	</tr>
 							  	

@@ -19,7 +19,9 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 		<transition to="goToCheckout" on="goToCheckout" />
 	</view-state>
 	
-	<view-state id="loginviewstate" view="/WEB-INF/views/login.jsp"/>
+	<view-state id="loginviewstate" view="/WEB-INF/views/login.jsp">
+		<transition to="run" on="goToCart" />		
+	</view-state>
 	
 	<view-state id="goToCheckout" view="/WEB-INF/views/flows/viewcartconfirmdetails.jsp">
 		<transition to="run" on="BackToCart" />

@@ -171,6 +171,8 @@ public class FurnitController {
 	    	System.out.println("User not present");
 	    	return "true";
 	    }
+	    
+	    
 		
 	}
 	
@@ -597,6 +599,10 @@ public class FurnitController {
 		
 		if (request.isUserInRole("ADMIN")) {
 	        mav.addObject("ADMIN", "ADMIN");
+	    }
+		
+		if (request.isUserInRole("USER")) {
+	        mav.addObject("USER", "USER");
 	    }
 		
 		if( request.getUserPrincipal() != null )
