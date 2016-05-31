@@ -96,7 +96,7 @@
 	
 </script>
 
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="myCtrl" style="background-color: #333333;">
 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/bootstrap.min.js"></script>
@@ -112,13 +112,11 @@
 	
 	<div>                
                 
-    <br><br>
+    
     
     <!--  -->
     
     <br><br>
-					<form role="form">
-					
 					<script type="text/css">
 					</script>
 					
@@ -128,7 +126,7 @@
 					    		<div class="row">
 					    		
 					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4"> </div>
-					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-primary btn-responsive center"><span class="glyphicon glyphicon-home" ></span> &nbsp;&nbsp; Home</button> </div>
+					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4"> <a href="${pageContext.request.contextPath}" class="btn btn-primary btn-responsive center" style="box-shadow: 5px 5px 10px #000000; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;"><span class="glyphicon glyphicon-home" ></span> &nbsp;&nbsp; Home</button> </a></div>
 									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4"> </div>
 					    		
 					    		</div>
@@ -136,7 +134,7 @@
 						</div>
 					</div>
 					
-					<br>
+					
 					
 					<div class="container">
 					<div class="row">
@@ -164,6 +162,12 @@
 							  	<br>
 							  	<br>
 							  	<br>
+							  	<br>
+							  	<br>
+							  	<br>
+							  	<br>
+							  	<br>
+							  	
 							  	
 							  </table>
 							</div>
@@ -171,12 +175,6 @@
 					</div>
 					</div>
 					
-					
-	                
-					</form>
-					
-					<br>
-					<br>
 					<br>
 					
 				

@@ -157,10 +157,14 @@
         
         $scope.goToProducts = function()
         {
-        	
-        	$("#products").submit();
-            
+        	$("#products").submit();            
         }
+        
+        $scope.goToCheckout = function()
+        {
+        	$("#checkout").submit();            
+        }
+        
         
 	}]);
 	
@@ -187,7 +191,7 @@
     <!--  -->
     
     <br><br>
-					<form role="form">
+					
 					
 					<script type="text/css">
 					</script>
@@ -198,11 +202,17 @@
 					    		<div class="row">
 					    		
 					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
+					    			
 					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-success btn-responsive center" ng-click="goToProducts();"><span class="glyphicon glyphicon-chevron-left" ></span> &nbsp;&nbsp; Continue Shopping</button> </div>
-					    			<form id="products" action="${flowExecutionUrl}&_eventId=goToProducts" method="get" >
+					    			<form id="products" action="${flowExecutionUrl}&_eventId=goToProducts" method="post" >
 										<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
 									</form>
-									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-danger btn-responsive center">Checkout &nbsp;&nbsp; <span class="glyphicon glyphicon-chevron-right" ></span></button> </div>
+									
+									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-danger btn-responsive center" ng-click="goToCheckout();" >Checkout &nbsp;&nbsp; <span class="glyphicon glyphicon-chevron-right" ></span></button> </div>
+									<form id="checkout" action="${flowExecutionUrl}&_eventId=goToCheckout" method="post" >
+										<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
+									</form>
+									
 									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
 					    		
 					    		</div>
@@ -222,14 +232,16 @@
 							  <table style="width: 80%;" class="table center">
 							  	
 							  	<tr>
-							  		<td><div class="img-circle img-responsive nopadding center_img" style="background-image: url( ${pageContext.request.contextPath}/resources/images/image_{{x.ProductID}}.jpg); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
+							  		<td colspan="2"><div class="img-circle img-responsive nopadding center_img" style="background-image: url( ${pageContext.request.contextPath}/resources/images/image_{{x.ProductID}}.jpg); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
 							  	</tr>
 							  	
 							  	<tr>
-							  		<td>
+							  		<td colspan="2">
 							  		<div class="row">
 					    		
-						    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" ng-click="deleteItem(x.CartID)" class="btn btn-primary btn-responsive center"><span class="glyphicon glyphicon-remove" ></span>&nbsp;&nbsp;Delete</button> </div>
+					    				<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4 "></div>
+						    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4 "> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" ng-click="deleteItem(x.CartID)" class="btn btn-primary btn-responsive center"><span class="glyphicon glyphicon-remove" ></span>&nbsp;&nbsp;Delete</button> </div>
+										<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-4 "></div>
 										
 					    			</div>
 									</td>
@@ -266,7 +278,6 @@
 					
 					
 	                
-					</form>
 					
 					<br>
 					<br>

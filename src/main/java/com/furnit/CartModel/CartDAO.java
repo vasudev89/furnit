@@ -10,6 +10,8 @@ public interface CartDAO
 	Cart getCartById(int cartId);
 	
 	Cart getCartByUsername(String Username);
+	
+	String checkUsername(String Username);
 
     void update(Cart cart);
     

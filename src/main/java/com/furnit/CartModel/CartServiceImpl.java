@@ -1,5 +1,6 @@
 package com.furnit.CartModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class CartServiceImpl implements CartService
 	@Transactional
 	public Cart getCartByUsername(String Username) {
 		return dao.getCartByUsername(Username);
+	}
+
+	@Transactional
+	public String checkUsername(String Username){
+		return dao.checkUsername(Username);
 	}
 
 }

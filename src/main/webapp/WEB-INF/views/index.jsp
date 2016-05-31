@@ -104,19 +104,19 @@
                 <br>
                 <br>
 	                <div class="col-md-4">
-		                <a href="product" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/beddisplay.jpg); background-size: 280px 220px; width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Guitar" style="line-height: 340px; font-size: 140%; background-color: #CCCCCC;" >&nbsp; Beds &nbsp;</a> </div></a>
+		                <a href="product?searchKey=Beds" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/beddisplay.jpg); background-size: 280px 220px; width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Beds" style="line-height: 340px; font-size: 140%; background-color: #CCCCCC;" >&nbsp; Beds &nbsp;</a> </div></a>
 		                <br><br>
 		                <p style="font-weight: none; font-size: 12px; font-style: none; line-height: 20px;">A piece of furniture used as a place to sleep or relax. They consist of a soft, cushioned mattress on a bed frame</p>
 	                </div>
 	                
 	                <div class="col-md-4">
-		                <a href="product" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/bookshelf.jpg); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Piano" style="line-height: 340px; font-size: 140%; background-color: #CCCCCC;" >&nbsp;Book Shelves&nbsp;</a> </div></a>
+		                <a href="product?searchKey=Book+Shelves" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/bookshelf.jpg); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Book+Shelves" style="line-height: 340px; font-size: 140%; background-color: #CCCCCC;" >&nbsp;Book Shelves&nbsp;</a> </div></a>
 		                <br><br>
 		                <p style="font-weight: none; font-size: 12px; font-style: none; line-height: 20px;">Your friendly garage for your books. A peaceful outlook and a soothing utopia can be found in these shelves.</p>
 	                </div>
 	                
 	                <div class="col-md-4">
-		                <a href="product" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/sofas.jpg); background-size: 280px 220px; width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Accessories" style="line-height: 340px; font-size: 140%;background-color: #CCCCCC;" > &nbsp;Sofas&nbsp; </a> </div></a>
+		                <a href="product?searchKey=Sofas" ><div class="img-circle img-responsive nopadding center_img" style="background-image: url(resources/images/sofas.jpg); background-size: 280px 220px; width: 280px ; height: 220px;" > <a align="center" href="product?searchKey=Sofas" style="line-height: 340px; font-size: 140%;background-color: #CCCCCC;" > &nbsp;Sofas&nbsp; </a> </div></a>
 		                <br><br>
 		                <p style="font-weight: none; font-size: 12px; font-style: none; line-height: 20px;">Sit Down and Relax. Enjoy a movie and bunk up with your friends on the weekend.</p>
 	                </div>

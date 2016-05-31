@@ -14,4 +14,6 @@ public interface CartService {
     public List<Cart> getAllItems();
     
     Cart getCartByUsername(String Username);
+    
+    String checkUsername(String Username);
 }

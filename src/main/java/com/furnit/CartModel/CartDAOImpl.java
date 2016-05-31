@@ -62,6 +62,15 @@ public class CartDAOImpl implements CartDAO
 		else
 			return null;
 	}
+
+	public String checkUsername(String Username){
+		List l = sessionFactory.getCurrentSession().createQuery("from Cart where Username = :Username").setString("Username", Username).list();
+		
+		if( l.size() == 0 )
+			return "success";
+		else
+			return "failure";
+	}
 	
 
 }

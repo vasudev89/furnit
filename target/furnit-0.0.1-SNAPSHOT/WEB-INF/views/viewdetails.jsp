@@ -1,3 +1,6 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@page isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <head>
 	
@@ -29,40 +32,121 @@
 	
 </head>
 
-<body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/references/js/angular.min.js"></script>
+
+<script type="text/javascript">
+'use strict';
+	
+	var myApp = angular.module("myApp",[]);
+	
+	///////////////////////////////////////
+	
+	myApp.factory('UserService', ['$http', '$q', function($http, $q){
+	 
+    return {
+         
+            fetchAllItems: function() {
+                    return $http.post('http://localhost:9001/furnit/flows/fetchitems/')
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while fetching items');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+             
+            createItem: function(item){
+                    return $http.post('http://localhost:9001/furnit/flows/createItem/', item)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while creating item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+             
+            updateItem: function(item, id){
+                    return $http.post('http://localhost:9001/furnit/flows/createItem/'+id, item)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while updating item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+             
+            deleteItem: function(id){
+                    return $http.post('http://localhost:9001/furnit/flows/deleteItem/'+id)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while deleting item');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            }
+         
+    };
+ 
+}]);
+
+//////////////////////////////////////////////////
+	
+///////////////////////////////////////
+	
+	myApp.controller("myCtrl", ['$scope' , '$timeout' , 'UserService' ,function($scope , $timeout , $UserService){
+		
+		$scope.data = [];
+		
+		<c:if test="${not empty datavalue}">
+		$scope.data = ${dataValue};
+		</c:if>
+		
+		$scope.item = {ProductID: '${productId}' ,Name: '${name}',Address:"${address}", UserName: '${pageContext.request.userPrincipal.name}' , Price: '${price}' , Qty: 1, BillingAddress: "${address}" };
+        
+        console.log( $scope.item );
+        
+        $scope.AddToCart = function()
+		{
+        	var resp = $UserService.createItem($scope.item)
+            .then(
+	            self.fetchAllItems, 
+	                    function(errResponse){
+	                         console.error('Error while creating item.');
+	                    } 
+        	);
+        	
+        	console.log(resp);
+        	
+        	$timeout(function()
+        	{
+        		$("#beginflow").submit();
+        	}, 500);
+        	
+		}
+		
+	}]);
+	
+	
+</script>
+
+<body ng-app="myApp" ng-controller="myCtrl">
 
 	<script type="text/javascript" src="resources/references/js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="resources/references/js/bootstrap.min.js"></script>
 
-	
-
-	<div style=" background-image: url(resources/images/headerBack.jpg); position: absolute;  left: 0px; height: 70px; color: #FFC706; width: 100%; text-align: left; vertical-align: middle; line-height: 60px; border: 0px solid #FFC706; box-shadow: 5px 45px 40px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" >
-		&nbsp;&nbsp;&nbsp;<span style="color: #FFFFFF; font-size: 32px;">Furn</span> - It
-                
-        <nav style="z-index: 4; background-image: url(resources/images/headerBack.jpg); border: none; box-shadow: 5px 5px 40px #000000;" class="navbar navbar-inverse">
-			<div class="container-fluid">
-    			<div class="navbar-header">
-      				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>                        
-      				</button>
-    			</div>
-    			<div class="collapse navbar-collapse" id="myNavbar">
-	    			<ul class="nav navbar-nav navbar-left">
-		    			<li><a class="nav navbar-left" href="index">Home</a></li>
-		        		<li><a href="aboutus">About Us</a></li>
-				        <li><a href="contactus">Contact Us</a></li>
-				        <li><a href="product">Products</a></li>
-				    </ul>
-	      			<ul class="nav navbar-nav navbar-right">
-				        <li><a href="login">Login</a></li>
-				        <li><a href="signup">Sign Up</a></li>
-			        </ul>
-	    		</div>
-  			</div>
-		</nav>
-	</div>
+	<c:import url="/head"/>
 
 	<!--  -->
 	
@@ -88,10 +172,14 @@
 					<div class="row">
 					    <div class="col-lg-12 col-centered">
 					    	<div class="table-responsive">
+							  
 							  <table style="width: 80%;" class="table center">
 							  	<tr>
 							  		<td><div class="img-circle img-responsive nopadding center_img" style="background-image: url(${productimage}); background-size: 280px 220px;background-repeat: no-repeat;width: 280px ; height: 220px;" ></div></td>
 							  	</tr>
+							  	
+							  	
+							  	
 							  	
 							  	<tr>
 							  		<td><label>Product ID:</label></td>
@@ -115,12 +203,18 @@
 							  	
 							  	<tr>
 							  		<td><label>Price:</label></td>
-							  		<td><label>${price}</label></td>
+							  		<td><label>${price} &nbsp; INR</label></td>
 							  	</tr>
 							  	
 							  	<tr>
 							  		<td><label>Quantity:</label></td>
-							  		<td><label>${qty}</label></td>
+							  		<td><input type="number" class="form-control" style="text-align: center;" min="1" max="100" value="1" ng-model="item.Qty" /> </td>
+							  	</tr>
+							  	
+							  	<tr>
+							  		<td></td>
+							  		<td><button type="button" ng-click="AddToCart();" class="btn btn-success btn-responsive">Add To Cart</button> </td>
+							  		
 							  	</tr>
 							  	
 							  	
@@ -134,15 +228,14 @@
 	                
 					</form>
 					
-					<br>
+					<form id="beginflow" action="initiateFlow" method="get" >
+						<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
+					</form>
+					
 					<br>
 					<br>
 					
-					
-	                <footer class="container-fluid text-center">
-					  <p><b>&copy; Vasudev Vashisht</b></p>
-					</footer>
-				
+	                
 				
 				<br><br>
 

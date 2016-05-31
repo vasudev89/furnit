@@ -157,6 +157,23 @@ public class FurnitController {
 	@Autowired
     ServletContext context;
 	
+	public String test()
+	{
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null && !auth.getName().equals("anonymousUser"))
+	    {    
+	    	System.out.println(auth.getName());
+	    	//System.out.println("User present");
+	    	return "false";
+	    }
+	    else
+	    {
+	    	System.out.println("User not present");
+	    	return "true";
+	    }
+		
+	}
+	
 	@RequestMapping(value="/" , method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request) throws IOException{
 		
@@ -353,7 +370,7 @@ public class FurnitController {
 	}
 	
 	@RequestMapping(value="/product" , method = RequestMethod.GET)
-	public ModelAndView product(HttpServletRequest request) throws IOException{
+	public ModelAndView product(@RequestParam(value="searchKey",defaultValue="")String searchKey,HttpServletRequest request) throws IOException{
 		
 		ModelAndView mav = new ModelAndView("product");
 		
@@ -366,6 +383,8 @@ public class FurnitController {
 		mav.addObject("deleteItem", new Item() );
 		mav.addObject("dataValue", getAllItems());
 		mav.addObject("viewItem", new Item() );
+		
+		mav.addObject("searchKey",searchKey);
 		
 		return mav ;
 	}

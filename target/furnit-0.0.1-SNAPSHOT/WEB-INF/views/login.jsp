@@ -1,3 +1,6 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@page isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <head>
 	
@@ -34,35 +37,7 @@
 	<script type="text/javascript" src="resources/references/js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="resources/references/js/bootstrap.min.js"></script>
 
-	
-
-	<div style=" background-image: url(resources/images/headerBack.jpg); position: absolute;  left: 0px; height: 70px; color: #FFC706; width: 100%; text-align: left; vertical-align: middle; line-height: 60px; border: 0px solid #FFC706; box-shadow: 5px 45px 40px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" >
-		&nbsp;&nbsp;&nbsp;<span style="color: #FFFFFF; font-size: 32px;">Furn</span> - It
-                
-        <nav style="z-index: 4; background-image: url(resources/images/headerBack.jpg); border: none; box-shadow: 5px 5px 40px #000000;" class="navbar navbar-inverse">
-			<div class="container-fluid">
-    			<div class="navbar-header">
-      				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>                        
-      				</button>
-    			</div>
-    			<div class="collapse navbar-collapse" id="myNavbar">
-	    			<ul class="nav navbar-nav navbar-left">
-		    			<li><a class="nav navbar-left" href="index">Home</a></li>
-		        		<li><a href="aboutus">About Us</a></li>
-				        <li><a href="contactus">Contact Us</a></li>
-				        <li><a href="product">Products</a></li>
-				    </ul>
-	      			<ul class="nav navbar-nav navbar-right">
-				        <li><a href="login">Login</a></li>
-				        <li><a href="signup">Sign Up</a></li>
-			        </ul>
-	    		</div>
-  			</div>
-		</nav>
-	</div>
+	<c:import url="/head"/>
 
 	<!--  -->
 	
@@ -79,8 +54,6 @@
     <!--  -->
     
     <br><br>
-					<form role="form">
-					
 					<script type="text/css">
 					</script>
 					
@@ -88,16 +61,34 @@
 					<div class="row">
 					    <div class="col-lg-12 col-centered">
 					    	<div class="table-responsive">
+					    	<c:url var="loginUrl" value="/login" />
+					    	<form action="${loginUrl}" method="post">
+					    		
+					    		<!--  -->
+					    		<c:if test="${param.error != null}">
+	                                <div class="alert alert-danger">
+	                                    <p>Invalid Username and password.</p>
+	                                </div>
+	                            </c:if>
+	                            <c:if test="${param.logout != null}">
+	                                <div class="alert alert-success">
+	                                    <p>You have been logged out successfully.</p>
+	                                </div>
+	                            </c:if>
+					    		<!--  -->
+					    		
 							  <table style="width: 80%;" class="table center">
 							  	<tr>
-							  		<td><label for="email">Email address:</label></td>
-							  		<td><input type="email" class="form-control" id="email"></td>
+							  		<td><label for="email">Username:</label></td>
+							  		<td><input type="text" class="form-control" id="email" name="email" autofocus="true" required></td>
 							  	</tr>
 							  	
 							  	<tr>
 							  		<td><label for="password">Password:</label></td>
-							  		<td><input type="password" class="form-control" id="password"></td>
+							  		<td><input type="password" class="form-control" id="password" name="password" required></td>
 							  	</tr>
+							  	
+							  	<input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />
 							  	
 							  	<tr>
 							  		<td colspan="2" >
@@ -108,33 +99,24 @@
 							  	</tr>
 							  	
 							  </table>
+							  </form>
 							</div>
 					    </div>
 					</div>
 					</div>
 					
 					
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					
+					
 	                
-					</form>
-					
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					
-					
-	                <footer class="container-fluid text-center">
-					  <p><b>&copy; Vasudev Vashisht</b></p>
-					</footer>
-				
 				
 				<br><br>
 

@@ -164,6 +164,16 @@
 				 );
 		}
         
+        $scope.backToConfirmDetails = function()
+        {
+        	$("#backToConfirmDetails").submit();            
+        }
+        
+        $scope.confirmOrder = function()
+        {
+        	$("#confirmOrder").submit();            
+        }
+        
 	}]);
 	
 	
@@ -190,8 +200,6 @@
     <!--  -->
     
     <br><br>
-					<form role="form">
-					
 					<script type="text/css">
 					</script>
 					
@@ -201,8 +209,16 @@
 					    		<div class="row">
 					    		
 					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
-					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-success btn-responsive center"><span class="glyphicon glyphicon-chevron-left" ></span> &nbsp;&nbsp; Continue Shopping</button> </div>
-									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-danger btn-responsive center">Checkout &nbsp;&nbsp; <span class="glyphicon glyphicon-chevron-right" ></span></button> </div>
+					    			<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-success btn-responsive center" ng-click="backToConfirmDetails();" ><span class="glyphicon glyphicon-chevron-left"></span> &nbsp;&nbsp; Re-Confirm Details</button> </div>
+					    			<form id="backToConfirmDetails" action="${flowExecutionUrl}&_eventId=BackToConfirmDetails" method="post" >
+										<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
+									</form>
+									
+									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> <button style="box-shadow: 5px 5px 10px #555555; font-style: italic; font-weight: bold; font-size: 20px; font-family: Segoe UI, Tahoma, sans-serif;" type="button" class="btn btn-danger btn-responsive center" ng-click="confirmOrder();" >Confirm Order &nbsp;&nbsp; <span class="glyphicon glyphicon-chevron-right" ></span></button> </div>
+									<form id="confirmOrder" action="${flowExecutionUrl}&_eventId=ConfirmOrder" method="post" >
+										<input type="hidden" name="user" value="${not empty pageContext.request.userPrincipal}" />
+									</form>
+									
 									<div style="padding-top: 2%;padding-bottom: 2%;" class="col-xs-3"> </div>
 					    		
 					    		</div>
@@ -321,10 +337,6 @@
 					</div>
 					</div>
 					    	
-					
-					
-	                
-					</form>
 					
 					<br>
 					<br>

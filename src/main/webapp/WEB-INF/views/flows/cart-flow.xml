@@ -4,18 +4,36 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/webflow
 http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
  
-	<var name="cart" class="com.furnit.CartModel.Cart" />
+	<var name="cart" class="com.furnit.FurnitController" />
+ 	
+ 	<var name="deleteItem" class="com.furnit.model.Item" />
  	
  	<action-state id="addCartToOrder">
-        <evaluate expression="CartService.getCartByUsername(requestParameters.user)" result="cart" />
-        <transition to="loginviewstate" on-exception="java.lang.NullPointerException" />
-        <transition to="run" on="success" />
+        <evaluate expression="cart.test(  )" result="cart" />
+        <transition to="loginviewstate" on="true" />
+        <transition to="run" on="false" />
     </action-state>
  	
-	<view-state id="run" view="/WEB-INF/views/flows/viewcart.jsp"/>
+	<view-state id="run" view="/WEB-INF/views/flows/viewcart.jsp">
+		<transition to="productsPage" on="goToProducts" />
+		<transition to="goToCheckout" on="goToCheckout" />
+	</view-state>
 	
 	<view-state id="loginviewstate" view="/WEB-INF/views/login.jsp"/>
-	<view-state id="goToProducts" view="/WEB-INF/views/product.jsp"/>
+	
+	<view-state id="goToCheckout" view="/WEB-INF/views/flows/viewcartconfirmdetails.jsp">
+		<transition to="run" on="BackToCart" />
+		<transition to="ViewCompleteOrder" on="ViewCompleteOrder" />
+	</view-state>
+	
+	<view-state id="productsPage" view="externalRedirect:/product" />
+	
+	<view-state id="ViewCompleteOrder" view="/WEB-INF/views/flows/viewcartcompleteorder.jsp">
+		<transition to="goToCheckout" on="BackToConfirmDetails" />
+		<transition to="confirmOrder" on="ConfirmOrder" />
+	</view-state>
 	 
+	 
+	<end-state id="confirmOrder" view="/WEB-INF/views/flows/viewcartthankyoupage.jsp"/>
 	
 </flow>

@@ -31,7 +31,7 @@
 	      				
 	      				<c:choose>
 	      					<c:when test="${not empty pageContext.request.userPrincipal}">
-	      						<li><span style="position: absolute; top: -5px; right: 5px; color: #FFFFFF; font-size: 1.1vw;">${pageContext.request.userPrincipal.name}</span></li>
+	      						<li><span style="position: absolute; top: -5px; right: 5px; color: #FFFFFF;">${pageContext.request.userPrincipal.name}</span></li>
 	      						<li><a href="${pageContext.request.contextPath}/logout">Log Out</a></li>
 	      						
 	      					</c:when>
