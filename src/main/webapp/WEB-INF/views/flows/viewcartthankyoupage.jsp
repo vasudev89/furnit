@@ -46,7 +46,7 @@
     return {
          
     	    fetchAllItems: function() {
-                    return $http.post('http://localhost:9001/furnit/flows/fetchitems/')
+                    return $http.post('http://localhost:9002/furnit/flows/fetchitems/')
                             .then(
                                     function(response){
                                         return response.data;
@@ -59,7 +59,7 @@
             },
             
             clearCart: function() {
-                return $http.post('http://localhost:9001/furnit/flows/clearCart/')
+                return $http.post('http://localhost:9002/furnit/flows/clearCart/')
                         .then(
                                 function(response){
                                     return response.data;
@@ -72,7 +72,7 @@
         	},
              
             createItem: function(item){
-                    return $http.post('http://localhost:9001/furnit/flows/createItem/', item)
+                    return $http.post('http://localhost:9002/furnit/flows/createItem/', item)
                             .then(
                                     function(response){
                                         return response.data;
@@ -85,7 +85,7 @@
             },
             
             updateItem: function(item, id){
-                    return $http.post('http://localhost:9001/furnit/flows/createItem/'+id, item)
+                    return $http.post('http://localhost:9002/furnit/flows/createItem/'+id, item)
                             .then(
                                     function(response){
                                         return response.data;
@@ -98,7 +98,7 @@
             },
             
             updateAll: function(item){
-                return $http.post('http://localhost:9001/furnit/flows/updateAddresses/', item)
+                return $http.post('http://localhost:9002/furnit/flows/updateAddresses/', item)
                         .then(
                                 function(response){
                                     return response.data;
@@ -111,7 +111,7 @@
         	},
              
             deleteItem: function(id){
-                    return $http.post('http://localhost:9001/furnit/flows/deleteItem/'+id)
+                    return $http.post('http://localhost:9002/furnit/flows/deleteItem/'+id)
                             .then(
                                     function(response){
                                         return response.data;
